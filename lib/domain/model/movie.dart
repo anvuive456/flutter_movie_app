@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:movie_app/domain/model/hive_movie.dart';
 
 class Movie extends Equatable {
@@ -29,40 +30,28 @@ class Movie extends Equatable {
 
   String get formattedDuration {
     //Check if the duration is right format
-    if (!this.duration.startsWith("PT")) {
+    if (!duration.startsWith("P")) {
       return "";
     }
+    String result = '';
 
-    String duration = this.duration.substring(2);
-
-    // split hour and minute components
-    String hours = "";
-    String minutes = "";
-    bool isHour = false;
-    for (int i = 0; i < duration.length; i++) {
-      String char = duration[i];
-      if (RegExp(r'[0-9]').hasMatch(char)) {
-        if (isHour) {
-          minutes += char;
-        } else {
-          hours += char;
-        }
-      } else if (char == 'H') {
-        isHour = true;
-      } else if (char == 'M') {
-        break;
-      }
-    }
-
-    int intHours = hours.isNotEmpty ? int.parse(hours) : 0;
-    int intMinutes = minutes.isNotEmpty ? int.parse(minutes) : 0;
-
-    String result = "";
-    if (intHours > 0) {
-      result += "$intHours hours ";
-    }
-    if (intMinutes > 0) {
-      result += "$intMinutes minutes";
+    if (duration.contains('T')) {
+      final [date, time] = duration.split('T');
+      result += date
+          .replaceAll('P', '')
+          .replaceAll('Y', 'years ')
+          .replaceAll('M', 'months ')
+          .replaceAll('D', 'days ');
+      result += time
+          .replaceAll('H', 'hours ')
+          .replaceAll('M', ' minutes ')
+          .replaceAll('S', ' seconds ');
+    } else {
+      result += duration
+          .replaceAll('P', '')
+          .replaceAll('Y', 'years ')
+          .replaceAll('M', ' months ')
+          .replaceAll('D', ' days ');
     }
     return result;
   }
