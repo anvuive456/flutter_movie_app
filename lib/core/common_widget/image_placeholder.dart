@@ -4,14 +4,16 @@ import 'package:movie_app/core/ui/color.dart';
 
 class ImagePlaceHolder extends StatelessWidget {
   final double radius;
+  final double? width;
+  final double? height;
 
-  const ImagePlaceHolder({super.key, this.radius = 0.0});
+  const ImagePlaceHolder({super.key, this.radius = 0.0, this.width, this.height});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.maxFinite,
-      height: double.maxFinite,
+      width:width?? double.maxFinite,
+      height:height?? double.maxFinite,
       decoration: BoxDecoration(
           color: AppColors.lightGrey,
           borderRadius: BorderRadius.circular(radius)),

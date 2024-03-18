@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -50,12 +51,11 @@ class _Portrait extends StatelessWidget {
         children: [
           Expanded(
             flex: 9,
-            child: Image.network(
-              movie.posterurl,
+            child: CachedNetworkImage(
+              imageUrl: movie.posterurl,
               fit: BoxFit.fitHeight,
-              errorBuilder: (context, error, stackTrace) {
-                return ImagePlaceHolder();
-              },
+              errorWidget: (context, error, stackTrace) =>
+                  const ImagePlaceHolder(),
             ),
           ),
           Flexible(
@@ -109,34 +109,33 @@ class _LandScape extends StatelessWidget {
         context.pushNamed(DetailMovieScreen.routeName, extra: movie);
       },
       child: Stack(children: [
-        Container(
-          height: 250,
-          decoration: ShapeDecoration(
-              image: DecorationImage(
-                fit: BoxFit.fitWidth,
-                image: Image.network(
-                  movie.posterurl,
-                  errorBuilder: (context, error, stackTrace) =>
-                      const ImagePlaceHolder(),
-                ).image,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: const BorderSide(color: AppColors.lightGrey,width: .5)
-              )),
-          foregroundDecoration: ShapeDecoration(
-              gradient: const LinearGradient(
-                  colors: [
-                    Colors.transparent,
-                    AppColors.black,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [.1, 1]),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              )),
-          alignment: Alignment.bottomCenter,
+        CachedNetworkImage(
+          imageUrl: movie.posterurl,
+          imageBuilder: (context, imageProvider) => Container(
+            height: 250,
+            decoration: ShapeDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fitWidth,
+                  image: imageProvider,
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: const BorderSide(
+                        color: AppColors.lightGrey, width: .5))),
+            foregroundDecoration: ShapeDecoration(
+                gradient: const LinearGradient(
+                    colors: [
+                      Colors.transparent,
+                      AppColors.black,
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [.1, 1]),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                )),
+            alignment: Alignment.bottomCenter,
+          ),
         ),
         Positioned(
           bottom: 0,

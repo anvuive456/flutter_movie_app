@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/core/common_widget/image_placeholder.dart';
 import 'package:movie_app/core/ui/app_strings.dart';
 import 'package:movie_app/core/ui/color.dart';
 import 'package:movie_app/domain/model/movie.dart';
@@ -23,17 +25,25 @@ class DetailMovieInformationWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Container(
-          width: 100,
-          height: 150,
-          clipBehavior: Clip.hardEdge,
-          margin: const EdgeInsets.only(top: 10),
-          decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  side: const BorderSide(color: AppColors.grey)),
-              image: DecorationImage(
-                  fit: BoxFit.cover, image: NetworkImage(movie.posterurl))),
+        CachedNetworkImage(
+          imageUrl: movie.posterurl,
+          errorWidget: (context, url, error) => const ImagePlaceHolder(
+            width: 100,
+            height: 150,
+            radius: 8,
+          ),
+          imageBuilder: (context, imageProvider) => Container(
+            width: 100,
+            height: 150,
+            clipBehavior: Clip.hardEdge,
+            margin: const EdgeInsets.only(top: 10),
+            decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: const BorderSide(color: AppColors.grey)),
+                image:
+                    DecorationImage(fit: BoxFit.cover, image: imageProvider)),
+          ),
         ),
         Expanded(
           child: Padding(
