@@ -1,16 +1,40 @@
-# movie_app
+Flutter Movie App
 
-A movie app made with Flutter
+This repository contains a Flutter application for browsing and discovering movies. The app utilizes the TMDB API to fetch movie data and display it in a user-friendly interface.
 
-## Getting Started
+Features
+Browse Movies: Users can explore a variety of movies sorted by different categories such as Popular, Top Rated, Upcoming, and Now Playing.
+Search Functionality: Allows users to search for movies based on their titles.
+Movie Details: Provides detailed information about each movie, including its synopsis, release date, ratings, and cast.
+Favorites: Users can mark movies as favorites to quickly access them later.
+Installation
+Clone the repository to your local machine:
 
-This project is a starting point for a Flutter application.
+bash
+Copy code
+git clone https://github.com/anvuive456/flutter_movie_app.git
+Navigate to the project directory:
 
-A few resources to get you started if this is your first Flutter project:
+bash
+Copy code
+cd flutter_movie_app
+Install dependencies using Flutter:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+bash
+Copy code
+flutter pub get
+Run the app on a connected device or emulator:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+bash
+Copy code
+flutter run
+Configuration
+To run the app successfully, you need to obtain an API key from TMDB. After obtaining the API key, create a file named .env in the root directory of the project and add your API key as follows:
+
+
+Fork the repository.
+Create a new branch (git checkout -b feature/my-feature).
+Make your changes.
+Commit your changes (git commit -am 'Add new feature').
+Push to the branch (git push origin feature/my-feature).
+Create a new Pull Request.
