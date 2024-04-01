@@ -9,4 +9,11 @@ abstract final class ToastService {
       align: Alignment.bottomCenter
     );
   }
+  static void showError(String message) {
+    BotToast.showNotification(
+      title: (cancelFunc) => Text(message),
+      borderRadius: 8.0,
+      align: Alignment.bottomCenter
+    );
+  }
 }

@@ -4,6 +4,7 @@ abstract final class AppStrings {
   static const String labelMovieDescription ='Plot';
 
   static const String labelMovieGenre='Genres';
+  static const String labelContentRating='Content rating';
 
   static const String labelMovieActors='Actors';
 
@@ -29,6 +30,8 @@ abstract final class AppStrings {
   static const String AVATAR_HERO_TAG='AVATAR_HERO';
 
   static const String labelSignOut = 'Sign out';
+
+  static const String errUserNotFoundOrHaveNotSignedUp ='User not found or you have not signed up';
   static  String labelMyWishlistWithCount(int count)=>'My wish list ($count)';
 
 

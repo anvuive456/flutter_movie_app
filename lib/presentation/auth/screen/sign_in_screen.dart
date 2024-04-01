@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:movie_app/core/extensions.dart';
+import 'package:movie_app/core/toast_service.dart';
 import 'package:movie_app/core/ui/color.dart';
 import 'package:movie_app/core/ui/custom_decoration.dart';
+import 'package:movie_app/presentation/auth/screen/sign_up_screen.dart';
 import 'package:movie_app/presentation/auth/widget/app_title_widget.dart';
 import 'package:movie_app/presentation/movie/screen/all_movies_screen.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -25,7 +27,9 @@ class _SignInScreenState extends State<SignInScreen> {
   final formGroup = FormGroup({
     'email': FormControl<String>(
         validators: [Validators.required, Validators.email]),
-    'password': FormControl<String>(validators: [Validators.minLength(8)]),
+    'password': FormControl<String>(validators: [
+      Validators.required,
+      Validators.minLength(8)]),
   });
 
   late AuthCubit _authCubit;
@@ -72,6 +76,11 @@ class _SignInScreenState extends State<SignInScreen> {
                 const SizedBox(height: 8),
                 BlocConsumer<AuthCubit, AuthState>(
                   listener: (context, state) {
+                    //Show error message when message is not null
+                    if (state.message != null &&
+                        state.message?.isNotEmpty == true) {
+                      ToastService.showError(state.message!);
+                    }
                     _moveToAllMoviesWhenLoggedIn(state.status);
                   },
                   builder: (context, state) {
@@ -82,6 +91,11 @@ class _SignInScreenState extends State<SignInScreen> {
                     );
                   },
                 ),
+                TextButton(
+                    onPressed: () {
+                      context.pushNamed(SignUpScreen.routeName);
+                    },
+                    child: Text(AppStrings.labelSignUp))
               ],
             ),
           ),
