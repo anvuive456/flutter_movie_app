@@ -18,11 +18,6 @@ class AllMoviesScreen extends StatefulWidget {
 }
 
 class _AllMoviesScreenState extends State<AllMoviesScreen> {
-  @override
-  void initState() {
-    context.read<AllMoviesCubit>().fetchMovies();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
