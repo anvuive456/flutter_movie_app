@@ -21,7 +21,10 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   void updateUser(Map<String, dynamic> json) async {
     emit(state.copyWith(loading: true));
-    final user = await repository.updateProfile(AppUser.fromMap(json));
+    final user = await repository.updateProfile(state.user.copyWith(
+      fullName: json['fullName'],
+      email: json['email'],
+    ));
 
     emit(state.copyWith(user: user, loading: false,updated: true));
   }

@@ -9,6 +9,7 @@ import 'package:movie_app/core/common_widget/image_placeholder.dart';
 import 'package:movie_app/core/toast_service.dart';
 import 'package:movie_app/core/ui/app_strings.dart';
 import 'package:movie_app/core/ui/color.dart';
+import 'package:movie_app/core/ui/custom_decoration.dart';
 import 'package:movie_app/presentation/auth/bloc/auth_cubit.dart';
 import 'package:movie_app/presentation/movie/screen/all_movies_screen.dart';
 import 'package:movie_app/presentation/movie/widget/movie_tile.dart';
@@ -16,6 +17,7 @@ import 'package:movie_app/presentation/movie/widget/section_label.dart';
 import 'package:movie_app/presentation/profile/bloc/profile_cubit.dart';
 import 'package:movie_app/presentation/profile/widget/profile_avatar.dart';
 import 'package:movie_app/presentation/wishlist/bloc/all_wishlist_cubit.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String routeName = 'profile';
@@ -41,9 +43,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (_, state) {
-       if(state.status == AuthStatus.unauthenticated) {
-         context.goNamed(AllMoviesScreen.routeName);
-       }
+        if (state.status == AuthStatus.unauthenticated) {
+          context.goNamed(AllMoviesScreen.routeName);
+        }
       },
       child: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
@@ -85,9 +87,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Email: ${state.user.email}',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    Text(
-                      'Name: ${state.user.fullName}',
-                      style: Theme.of(context).textTheme.bodyMedium,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Name: ${state.user.fullName}',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        TextButton(
+                            onPressed: () =>
+                                _handleChangeName(state.user.fullName),
+                            child: Text(AppStrings.labelChange))
+                      ],
                     ),
                     AppButton(
                       label: AppStrings.labelSignOut,
@@ -131,5 +142,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
+  }
+
+  void _handleChangeName(String oldName) async {
+    final newName = await _showChangeNameDialog(oldName);
+    if (newName != null) {
+      _cubit.updateUser({'fullName': newName});
+    }
+  }
+
+  Future<String?> _showChangeNameDialog(String oldName) async {
+    final form = FormControl(value: oldName, validators: [Validators.required]);
+    final data = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppColors.black,
+        content: ReactiveTextField(
+          formControl: form,
+          decoration: CustomDecorations.fieldDecoration(),
+        ),
+        actions: [
+          AppButton(
+            label: AppStrings.labelChange,
+            onTap: () {
+              ctx.pop(form.value);
+            },
+          )
+        ],
+      ),
+    );
+
+    return data;
   }
 }

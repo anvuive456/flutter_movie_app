@@ -32,6 +32,8 @@ abstract final class AppStrings {
   static const String labelSignOut = 'Sign out';
 
   static const String errUserNotFoundOrHaveNotSignedUp ='User not found or you have not signed up';
+
+  static const labelChange ='Change';
   static  String labelMyWishlistWithCount(int count)=>'My wish list ($count)';
 
 
