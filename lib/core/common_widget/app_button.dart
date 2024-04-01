@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
@@ -75,18 +74,20 @@ class FormSubmitButton extends StatelessWidget {
   final String label;
   final VoidCallback onTap;
   final Color buttonColor;
+  final AbstractControl? form;
 
   const FormSubmitButton({
     super.key,
     this.loading = false,
     required this.label,
     required this.onTap,
+    this.form,
     this.buttonColor = AppColors.lightBlue,
   });
 
   @override
   Widget build(BuildContext context) {
-    final form = ReactiveForm.of(context);
+    final form = this.form ?? ReactiveForm.of(context);
     final disabled = form == null || form.invalid;
 
     final textStyle = Theme.of(context).textTheme.titleLarge;
